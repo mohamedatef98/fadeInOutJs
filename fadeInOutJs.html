@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html>
+<meta charset="UTF-8">
+
+</html>
+
+<!--This HTML file is an example for fade in and and out in javascript only by using setInterval and clearInterval-->
+
+<body>
+    <br>
+    <ul style="list-style-type:none;text-align:center">
+        <li>
+            <!--a button with unique id to be choosen from the javascript file-->
+            <a href="#" id="listItem" style="text-decoration:none;background-color:blueviolet;padding:30px;border-radius:0px;">Click</a>
+        </li>
+    </ul>
+    <script>
+        //Choosing the anchor tag bt its unique id
+        var li = document.getElementById("listItem");
+
+        //variable that will represent whether the mouse is over the tag ... it will be changed in the eventListeners function
+        var mouseIn = false;
+        
+        //the mouseenter eventListener function that will increase the border radius of the anchor tag smoothly that decreases the radius to zero or whenever the mouse leaves the tag
+        function keepIncreasingBorder() {
+            //changing the mouseIn variable to true to indicate that the mouse is over the tag
+            mouseIn = true;
+            //creating a setInterval function that will keep increasing the border radius of the anchor tag
+            var increaseInterval = setInterval(function () {
+                //first asking if the border radius of the anchor tag isnot the max value and if the mouse is in the tag
+                if (!(li.style.borderRadius === "30px") && mouseIn) {
+                    var currnetRadius = li.style.borderRadius;
+                    currnetRadius = parseInt(currnetRadius[0] + currnetRadius[1]);
+                    currnetRadius++;
+                    li.style.borderRadius = currnetRadius + "px";
+                    //console.log(currnetRadius);
+                }
+                //if the mouse left the tag we have to stop the setInterval "increaseInterval" from executing by clearInterval
+                if(mouseIn === false){
+                    clearInterval(increaseInterval);
+                }
+
+            }, /*For viewing purposes it's set to 200 miliseconds*/ 5);
+        }
+
+        //the event mouseenter listener
+        li.addEventListener("mouseenter", keepIncreasingBorder);
+
+
+        //the mouseleave eventListener function that will decrease the border radius of the anchor tag smoothly to the max value from whatever the previous value was
+        function keepDecreasingBorder() {
+            mouseIn = false;
+            var decreaseInterval = setInterval(function () {
+                //first asking if the border radius of the anchor tag isnot the zero value and if the mouse is out of the tag
+                if ( !(li.style.borderRadius === "0px") && mouseIn === false) {
+                    var currnetRadius = li.style.borderRadius;
+                    currnetRadius = parseInt(currnetRadius[0] + currnetRadius[1]);
+                    currnetRadius --;
+                    li.style.borderRadius = currnetRadius + "px";
+                    //console.log(currnetRadius);
+                }
+                //if the border radius of the tag reachs the min value of zero we have to stop the setInterval "decreaseInterval" from executing by a clearInterval
+                if (li.style.borderRadius === "0px"){
+                    clearInterval(decreaseInterval);
+                }
+
+            }, 5);
+        }
+
+        li.addEventListener("mouseleave", keepDecreasingBorder);
+
+    </script>
+    <br>
+    <h1 style="text-align:center">Happy</h1>
+</body>
